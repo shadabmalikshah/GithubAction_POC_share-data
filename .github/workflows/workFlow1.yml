@@ -1,23 +1,19 @@
-name: Workflow A
+name: Add Job
+ 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      
 jobs:
-  some_job:  
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Some Step 
-        run: echo "Hello!"
-  job_producing_data:  
-    runs-on: ubuntu-latest
-    steps:
-      - name: Some Step 
-        run: |
-            printf '{ 
-              "prop_1": "Some value",  
-              "prop_2": true
-            }' >> context.json
-      - uses: actions/upload-artifact@v3
+      - name: Generate data
+        run: echo "Data to be shared" > shared-data.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: context.json
-          path: ./
+          name: shared-data
+          path: shared-data.txt
